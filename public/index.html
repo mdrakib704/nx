@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NX Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <!-- Dynamic Background Video/Image handled by app.js -->
+    <div id="dynamic-background"></div>
+    <div class="background-overlay"></div>
+
+    <!-- Auth System -->
+    <div id="auth-container" class="glass-panel active">
+        <h1 class="logo-text">NX Panel</h1>
+        
+        <form id="login-form">
+            <h2>Login</h2>
+            <input type="email" id="login-email" placeholder="Email" required>
+            <input type="password" id="login-password" placeholder="Password" required>
+            <button type="submit" class="btn primary">Login</button>
+            <a href="#" onclick="toggleAuth()">Need an account? Register</a>
+        </form>
+
+        <form id="register-form" style="display: none;">
+            <h2>Register</h2>
+            <input type="text" id="reg-username" placeholder="Username" required>
+            <input type="email" id="reg-email" placeholder="Email" required>
+            <input type="password" id="reg-password" placeholder="Password" required>
+            <button type="submit" class="btn primary">Register</button>
+            <a href="#" onclick="toggleAuth()">Already have an account? Login</a>
+        </form>
+    </div>
+
+    <!-- Main App -->
+    <div id="app-container" style="display: none;">
+        
+        <!-- Sidebar -->
+        <nav class="sidebar glass-panel">
+            <h2 class="logo-text">NX Panel</h2>
+            <ul class="nav-links">
+                <li onclick="navigate('dashboard')" class="active">Dashboard</li>
+                <li onclick="navigate('servers')">My Servers</li>
+                <li onclick="navigate('store')">Coin Store</li>
+                <li id="nav-admin" onclick="navigate('admin')" style="display:none;" class="admin-link">Admin Panel</li>
+            </ul>
+            <div class="sidebar-footer">
+                <span id="user-coin-balance">🪙 0 Coins</span>
+                <button onclick="logout()" class="btn danger outline">Logout</button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="content-area">
+            
+            <!-- Dashboard View -->
+            <section id="view-dashboard" class="view active">
+                <header>
+                    <h1>Welcome back, <span id="dash-username">User</span></h1>
+                    <button class="btn success" onclick="claimDailyReward()">Claim Daily Reward</button>
+                </header>
+                
+                <div class="stats-grid">
+                    <div class="stat-card glass-panel">
+                        <h3>Your Servers</h3>
+                        <p id="stat-servers">0</p>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <h3>Total RAM</h3>
+                        <p id="stat-ram">0 MB</p>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <h3>Coins</h3>
+                        <p id="stat-coins">0</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Servers View -->
+            <section id="view-servers" class="view">
+                <header>
+                    <h1>My Servers</h1>
+                    <button class="btn primary" onclick="showCreateServerModal()">+ New Server</button>
+                </header>
+                <div id="servers-list" class="servers-grid">
+                    <!-- Servers injected here -->
+                </div>
+            </section>
+
+            <!-- Server Management View (Inner View) -->
+            <section id="view-server-manage" class="view">
+                <header>
+                    <h1 id="manage-server-name">Server Name</h1>
+                    <button class="btn outline" onclick="navigate('servers')">Back</button>
+                </header>
+                
+                <div class="manage-grid">
+                    <div class="console-panel glass-panel">
+                        <div class="console-header">
+                            <h3>Console</h3>
+                            <div class="power-actions">
+                                <button class="btn success" onclick="serverAction('start')">Start</button>
+                                <button class="btn warning" onclick="serverAction('stop')">Stop</button>
+                                <button class="btn danger" onclick="serverAction('kill')">Kill</button>
+                            </div>
+                        </div>
+                        <div id="console-output" class="terminal"></div>
+                        <input type="text" id="console-input" class="terminal-input" placeholder="Enter command...">
+                    </div>
+
+                    <div class="file-manager-panel glass-panel">
+                        <h3>File Manager</h3>
+                        <div class="file-actions">
+                            <input type="file" id="file-upload" onchange="uploadFile()" hidden>
+                            <button class="btn primary" onclick="document.getElementById('file-upload').click()">Upload File</button>
+                        </div>
+                        <div id="file-list" class="file-list">
+                            <!-- Files injected here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Create Server Modal -->
+    <div id="create-server-modal" class="modal">
+        <div class="modal-content glass-panel">
+            <h2>Create New Server</h2>
+            <input type="text" id="new-server-name" placeholder="Server Name" required>
+            <select id="new-server-type">
+                <option value="nodejs">Node.js</option>
+                <option value="python">Python</option>
+                <option value="minecraft_java">Minecraft Java</option>
+                <option value="minecraft_bedrock">Minecraft Bedrock</option>
+                <option value="php">PHP</option>
+                <option value="bun">Bun</option>
+                <option value="deno">Deno</option>
+            </select>
+            <input type="text" id="new-server-cmd" placeholder="Custom Startup Command (Optional)">
+            <div class="modal-actions">
+                <button class="btn primary" onclick="createServer()">Create</button>
+                <button class="btn outline" onclick="closeModal('create-server-modal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ads Container (Dynamic via Ad Manager) -->
+    <div id="ad-container"></div>
+
+    <script src="app.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
