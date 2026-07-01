@@ -1,0 +1,23 @@
+{
+  "port": 3000,
+  "jwtSecret": "nx-panel-super-secret-key-change-me-in-production",
+  "jwtExpiresIn": "7d",
+  "panelName": "NX Panel",
+  "defaultResources": {
+    "ram": 3072,
+    "cpu": 100,
+    "storage": 10240,
+    "serverLimit": 1
+  },
+  "paths": {
+    "servers": "./servers",
+    "uploads": "./uploads",
+    "backups": "./backups",
+    "logs": "./logs",
+    "backgrounds": "./public/backgrounds"
+  },
+  "coinSystem": {
+    "dailyReward": 50,
+    "referralReward": 100
+  }
+}
